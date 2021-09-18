@@ -1,21 +1,16 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState} from 'react'
 import {Container,TextField,Paper,Typography,Grid,Button,CircularProgress} from '@material-ui/core/';
+import {useHistory} from 'react-router-dom'
+
 import styles from './Styles'
 import * as API from '../../API/'
-import {useHistory} from 'react-router-dom'
 
 const InputForm = () => {
     const classes = styles()
-
     const history = useHistory()
 
     const [id, setId] = useState("")
-    const [randomId, setRandomId] = useState("")
     const [isLoading, setIsLoading] = useState("")
-
-    useEffect(() => {
-
-    }, []);
 
     const getRandomData = () =>{
         return API.getRandomData().then(({data})=>{
@@ -27,7 +22,6 @@ const InputForm = () => {
     const handleRandom = async () => {
         setIsLoading(true)
         const id = await getRandomData()
-        console.log(id)
         history.push(`/random/${id}`)
         setIsLoading(false)
     }
