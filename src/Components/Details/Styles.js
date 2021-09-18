@@ -16,18 +16,13 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
         padding: theme.spacing(2),
-        width:'30vw'
+        width:'35vw'
     },
-    textField: {
-        width:'100%'
-
-    },
-    form: {
-        width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(3),
+    text: {
+        margin: theme.spacing(2, 1 , 0),
     },
     submit: {
-        margin: theme.spacing(1, 1, 2),
+        margin: theme.spacing(3, 1, 1),
     },
 }));
 

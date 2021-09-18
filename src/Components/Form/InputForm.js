@@ -1,16 +1,42 @@
-import React,{useState} from 'react'
-import {Container,TextField,Paper,Typography,Grid,Button} from '@material-ui/core/';
+import React,{useState,useEffect} from 'react'
+import {Container,TextField,Paper,Typography,Grid,Button,CircularProgress} from '@material-ui/core/';
 import styles from './Styles'
+import * as API from '../../API/'
+import {useHistory} from 'react-router-dom'
 
-const Form = () => {
-    const [id, setId] = useState("")
+const InputForm = () => {
     const classes = styles()
 
-    const handleSubmit = async (e) => {
-        
+    const history = useHistory()
+
+    const [id, setId] = useState("")
+    const [randomId, setRandomId] = useState("")
+    const [isLoading, setIsLoading] = useState("")
+
+    useEffect(() => {
+
+    }, []);
+
+    const getRandomData = () =>{
+        return API.getRandomData().then(({data})=>{
+            const randomNo = Math.floor(Math.random() * (19))
+            return data.near_earth_objects[randomNo].id
+        })
+    }
+    
+    const handleRandom = async () => {
+        setIsLoading(true)
+        const id = await getRandomData()
+        console.log(id)
+        history.push(`/random/${id}`)
+        setIsLoading(false)
+    }
+
+    const handleClick = async () => {
+        history.push(`/details/${id}`)
     }
     const handleChange = (e) => {
-        setformData({...formData,[e.target.name]: e.target.value})
+        setId(e.target.value)
     }
 
     return (
@@ -19,29 +45,35 @@ const Form = () => {
                 <Typography variant="h5">
                     Search Asteroid
                 </Typography>
-                <form id="myForm" className={classes.form} noValidate autoComplete="off" onSubmit={handleSubmit} >
-                    <Grid container spacing={2}>
+                    <Grid container spacing={1}>
                         <TextField
                             id="outlined-basic"
-                            fullWidth label="Show Name"
+                            fullWidth label="Asteroid ID"
                             variant="outlined"
                             onChange={handleChange}
-                            name='name'
+                            name='id'
                         />
                         <Button
                             type="submit"
                             fullWidth variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={handleClick}
+                            disabled={id !== '' ? false : true}
                         >
                             Submit
                         </Button>
+                        <Button
+                            fullWidth variant="contained"
+                            className={classes.submit}
+                            onClick={handleRandom}
+                        >
+                            {isLoading ? <CircularProgress /> : "Random Asteroid"}
+                        </Button>
                     </Grid>
-                </form>
             </Paper>
         </Container>
-
     )
 }
 
-export default Form
+export default InputForm
