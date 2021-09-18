@@ -12,7 +12,7 @@ const InputForm = () => {
     const [id, setId] = useState("")
     const [isLoading, setIsLoading] = useState("")
 
-    const getRandomData = () =>{
+    const getRandomData = () => {
         return API.getRandomData().then(({data})=>{
             const randomNo = Math.floor(Math.random() * (19))
             return data.near_earth_objects[randomNo].id
@@ -26,7 +26,7 @@ const InputForm = () => {
         setIsLoading(false)
     }
 
-    const handleClick = async () => {
+    const handleClick = () => {
         history.push(`/details/${id}`)
     }
     const handleChange = (e) => {
